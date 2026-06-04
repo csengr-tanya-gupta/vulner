@@ -1,26 +1,23 @@
-# Vulnerable Snyk Test Project
+# Secured Snyk Test Project
 
-This is a simple single-file Node.js project designed for testing security scanners like Snyk.
+This is a simple single-file Node.js project that was previously configured with vulnerable dependencies for testing with Snyk, and has now been updated to use secure versions.
 
-## Included Vulnerabilities
+## Current Dependency Versions
 
-1. **`lodash@4.17.15`**:
-   - **Prototype Pollution** (e.g., CVE-2020-8203, CVE-2020-28500)
-2. **`minimist@1.2.0`**:
-   - **Prototype Pollution** (e.g., CVE-2020-7598, CVE-2021-44906)
-3. **`axios@0.19.0`**:
-   - **Server-Side Request Forgery (SSRF)** / Header Injection (e.g., CVE-2020-28168)
+1. **`lodash@^4.18.1`** (Secured against Prototype Pollution, patched in >=4.17.21)
+2. **`minimist@^1.2.8`** (Secured against Prototype Pollution, patched in >=1.2.6)
+3. **`axios@^1.17.0`** (Secured against SSRF / Header Injection, patched in >=0.21.1 / >=1.6.0)
 
 ## Setup
 
-Install the vulnerable dependencies:
+Install the updated dependencies:
 ```bash
 npm install
 ```
 
 ## Running the App
 
-To run the application and observe the Prototype Pollution demonstration:
+To run the application and verify that the Prototype Pollution protection is working:
 ```bash
 npm start
 ```
@@ -28,13 +25,12 @@ npm start
 ## Scanning with Snyk
 
 ### 1. Locally via Snyk CLI
-If you want to authenticate and run the test locally using your token:
+To run a security scan locally (which should now show 0 vulnerabilities):
 
 1. **Authenticate the Snyk CLI**:
    ```bash
    npx snyk auth <YOUR_SNYK_TOKEN>
    ```
-   *(Alternatively, run `npx snyk auth` to authenticate via the browser).*
 
 2. **Run the vulnerability scan**:
    ```bash
@@ -42,11 +38,4 @@ If you want to authenticate and run the test locally using your token:
    ```
 
 ### 2. GitHub Integration (GitHub Actions)
-A GitHub workflow has been added at `.github/workflows/snyk.yml` to automatically run vulnerability scans on code pushes and pull requests.
-
-To configure this:
-1. Go to your repository on GitHub.
-2. Navigate to **Settings** > **Secrets and variables** > **Actions**.
-3. Click on **New repository secret**.
-4. Name the secret **`SNYK_TOKEN`** and paste your Snyk API token as the value.
-5. Push this codebase to GitHub, and the workflow will trigger automatically.
+The GitHub workflow at `.github/workflows/snyk.yml` will automatically run vulnerability scans on code pushes and pull requests to ensure no new vulnerabilities are introduced.
